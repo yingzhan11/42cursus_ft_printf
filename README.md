@@ -1,22 +1,22 @@
-some useful links for ft_printf
+# Useful Links
 
-mandatory part
-  [about printf] https://www.geeksforgeeks.org/printf-in-c/
+## Mandatory Part
+  **about printf** https://www.geeksforgeeks.org/printf-in-c/
   
-  [va_list] https://www.youtube.com/watch?v=Hb2m7htiKWM
+  **va_list** https://www.youtube.com/watch?v=Hb2m7htiKWM
   
-  [mini printf tutorial] https://www.youtube.com/watch?v=byRw36Y3Hjs&list=PLc4DnsRQbs6YsGjxHE-UgoI0ZGsuD8VQY&index=3
-        (ATTENTION!! This tutorial is not match to subject perfectly, so just learn the method and write your own code)
+  **mini printf tutorial** https://www.youtube.com/watch?v=byRw36Y3Hjs&list=PLc4DnsRQbs6YsGjxHE-UgoI0ZGsuD8VQY&index=3
+  _ATTENTION!! This tutorial is not match to subject perfectly, so just learn the method and write your own code_
 
-bonus part
-  [flags & description] https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm
+## Bonus Part
+  **flags & description** https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm
 
-  [visual printf] 
+  **visual printf**
         https://github.com/Nuno-Jesus/42_ft_printf/tree/main/ft_printf 
         https://zhxnlai.github.io/printf/#/
 
-  [full printf tutorial] https://www.youtube.com/watch?v=kM-DOhKR080&list=PLc4DnsRQbs6YsGjxHE-UgoI0ZGsuD8VQY&index=3
-        (ATTENTION!! This tutorial is not match to subject perfectly, so just learn the method and write your own code)
+  **full printf tutorial** https://www.youtube.com/watch?v=kM-DOhKR080&list=PLc4DnsRQbs6YsGjxHE-UgoI0ZGsuD8VQY&index=3
+  _ATTENTION!! This tutorial is not match to subject perfectly, so just learn the method and write your own code_
 
 should be careful with:
 (...to be continued)
