@@ -8,7 +8,7 @@ OBJS = $(SRCS:.c=.o)
 BONUS_DIR = bonus
 SRCS_BONUS = ft_printf_bonus.c ft_parse_bonus.c ft_print_char_bonus.c \
 				ft_print_digit_bonus.c ft_print_str_bonus.c ft_print_pointer_bonus.c \
-				ft_utilities_bonus.c ft_nb_utilities_bonus.c
+				ft_utilities_bonus.c ft_write_bonus.c
 OBJS_BONUS = $(addprefix $(BONUS_DIR)/, $(SRCS_BONUS:.c=.o))
 
 all: $(NAME)
