@@ -33,43 +33,69 @@ I have two version code for bonus part, one is similar with Mandatory part witho
 
 The newest one which I submit is use a large buffer to collect all contents need to be print, and only call write function when the buffer is full or reach the end of format string.
 
-It is failed in moulinette in the bouns-one, "Manage any combination of the following flags: ’-0.’ and the field minimum width under all conversions."
+## My Bug
 
-**The possible bug:**
+My code failed by moulinette in the bouns-one, "Manage any combination of the following flags: ’-0.’ and the field minimum width under all conversions."
 
-For a very large or small width value, there would be some problem.
+_**The possible bug:**_
+
+For a very large or small width value, like INT_MAX or INT_MIN, it should return -1.
+
+I found some interesting? problems for this limitation
 
 For example: 
 
-If the width value is INT_MAX: `ft_printf("%2147483647d", 42);` , the return value shoube be `-1`, and print nothing.
+If the width value is INT_MAX: `printf("%2147483647d", 42);` , the return value shoube be `-1`, and print nothing.
 
-`ft_printf("%2147483646d", 42);` can print correctly, and return value is 2147483646.
+`printf("%2147483646d", 42);` can print correctly, and return value is 2147483646.
 
-If use * sign to give a negative number to width, the '-' sign will be recognized as _**left_justified**_. So "INT_MIN" and "INT_MIN + 1" return -1. 
+If use * sign to give a negative number to width, the '-' sign will be recognized as _**left_justified**_. 
 
-It means, the unsigned value of width should be smaller than INT_MAX.
+So INT_MIN : `printf("%-2147483648d", 42);` and INT_MIN + 1 : `printf("%-2147483647d", 42);` , will return -1. 
 
-BUT! If there are some other chars before % or after d, the limitation of width is not UINT_MAX
+It seems, the unsigned value of width should be smaller than INT_MAX. 
 
-and `ft_printf("INT_MAX WIDTH %2147483647d", 42);`, it seems what before % also matters, we didn't find the reason and method to handle this yet. But good news is moulinette doesn't test a extremely large or small value.
+So the max width is 2147483646, and min is -2147483646.
 
+_**BUT!**_ (moulinette does not test this, but standard printf does)
 
-The reason is I didn't consider with _**a negative width value**_, I will fix it later.
+If there are some other chars before _%_ or after _d_, the limitation of width is not UINT_MAX - 1 (2147483646).
+
+like:
+
+`printf("INT_MAX WIDTH %2147483646d", 42);`, will return -1, and print nothing.
+
+`printf("INT_MAX WIDTH %2147483645d", 42);` will also return -1, and print nothing.
+
+...
+
+`printf("INT_MAX WIDTH %2147483635d", 42);` will also return -1, and print nothing.
+
+...until...
+
+`printf("INT_MAX WIDTH %2147483632d", 42);` it print and return 2147483646
+
+So _**INT_MAX - 1**_ is not the _**width**_ limitation, but the _**RETURN VALUE**_ of printf, which is _the field minimum width_ in subject.
+
+_Not sure why is must be smaller, can not be equal_
+
 
 ## Notes
-1.It is better to use a buffer method to reduce the times to call write function.
+1. It is better to use a buffer method to reduce the times of calling write function.
 
-2.When use a buffer, remember to _**initialize it at begining and refresh it after write.**_
+2. When use a buffer, remember to _**initialize it at begining and refresh it after write.**_
 
-3.Check fail of write function, if use a buffer only need to check it when write the buffer.
+3. Check fail of write function, if use a buffer only need to check it when write the buffer.
 
-4.The correct order of printf input is _%[-+ 0#][width][.precision][specifier]_, but for a wrong order, if cc without -W -W -W, printf can also give a corret output and return value.
+4. The correct order of printf input is _%[-+ 0#][width][.precision][specifier]_, but for a wrong order, if cc without -W -W -W, printf can also give a corret output and return value.
 
-5.Check _**negative width value**_, like `ft_printf("%-*d", -20, 42);`, the standard printf would convert the "-20" to "20" then print out.
+(moulinette does not check 5 & 6, but it is better to do as standard printf)
 
-6.Precision has two input format .nb or .*, like `ft_printf("%.3d", 42);` or `ft_printf("%.*d", 3, 42);`.
+5. Width and Precision has two input format nb and .nb, or * and .*, like `ft_printf("%.3d", 42);` or `ft_printf("%.*d", 3, 42);`.
 
-7.
+6. Handle with _**negative width value**_, like `ft_printf("%*d", -20, 42);`, the standard printf would recognized the '-' as _**left_justified**_, width value is 20.
+
+
 ## Useful Links
   **flags & description** https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm
 
