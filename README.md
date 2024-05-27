@@ -11,6 +11,8 @@ The Bonus Part is not perfect now, only half scores. I already find the problem 
 
 4.For %p, when nb < base, also need to use "nb % 16" as the index for Hex string. This is differ to convert base for normal number.
 
+5.Check single % without any specifier follow it.
+
 ## Useful Links
   **about printf** https://www.geeksforgeeks.org/printf-in-c/
   
@@ -19,9 +21,20 @@ The Bonus Part is not perfect now, only half scores. I already find the problem 
   **mini printf tutorial** https://www.youtube.com/watch?v=byRw36Y3Hjs&list=PLc4DnsRQbs6YsGjxHE-UgoI0ZGsuD8VQY&index=3
   _ATTENTION!! This tutorial is not match to subject perfectly, so just learn the method and write your own code_
 
-# Bonus Part
-## Notes
 
+# Bonus Part
+I have two version code for bonus part, one is similar with Mandatory part without useing buffer, but write as soon as it need to be print. It's work well, but slow, if the width value is large, like 100 or 1000, it may timeout.
+
+The newest one which I submit is use a large buffer to collect all contents need to be print, and only call write function when the buffer is full or reach the end of format string.
+
+It is failed in moulinette in the bouns-one, "Manage any combination of the following flags: ’-0.’ and the field minimum width under all conversions."
+
+The reason is I didn't consider with a negative width value, I will fix it later.
+
+## Notes
+1.It is better to use a buffer to reduce the times to call write function.
+2.When use a buffer, remember to initialize it at begining and refresh it after write.
+3.
 
 ## Useful Links
   **flags & description** https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm
