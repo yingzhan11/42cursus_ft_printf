@@ -75,9 +75,9 @@ like:
 
 `printf("INT_MAX WIDTH %2147483632d", 42);` it print and return 2147483646
 
-So _**INT_MAX - 1**_ is not the _**width**_ limitation, but the _**RETURN VALUE**_ of printf, which is _the field minimum width_ in subject.
+So _**INT_MAX - 1**_ is not the _**width**_ limitation, but the _**RETURN VALUE**_ of printf, the total length of the output string should smalle than INT_MAX
 
-_Not sure why is must be smaller, can not be equal_
+_Not sure why is must be smaller, can not be equal, I guess it is because of '\0'?_
 
 
 ## Notes
