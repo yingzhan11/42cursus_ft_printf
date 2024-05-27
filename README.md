@@ -1,7 +1,7 @@
 # IMPORTANT!
 The Bonus Part is not perfect now, only half scores (117/125)
 
-I already find the bug (see the Bonus Part) and will try to fix it, but I don't want to retry it now, maybe in the future.
+Not sure where is the bug now, there two possible problems(see the Bonus Part), but I don't want to retry it now, maybe in the future.
 
 
 
@@ -35,6 +35,25 @@ The newest one which I submit is use a large buffer to collect all contents need
 
 It is failed in moulinette in the bouns-one, "Manage any combination of the following flags: ’-0.’ and the field minimum width under all conversions."
 
+**The possible bug:**
+
+For a very large or small width value, there would be some problem.
+
+For example: 
+
+If the width value is INT_MAX: `ft_printf("%2147483647d", 42);` , the return value shoube be `-1`, and print nothing.
+
+`ft_printf("%2147483646d", 42);` can print correctly, and return value is 2147483646.
+
+If use * sign to give a negative number to width, the '-' sign will be recognized as _**left_justified**_. So "INT_MIN" and "INT_MIN + 1" return -1. 
+
+It means, the unsigned value of width should be smaller than INT_MAX.
+
+BUT! If there are some other chars before % or after d, the limitation of width is not UINT_MAX
+
+and `ft_printf("INT_MAX WIDTH %2147483647d", 42);`, it seems what before % also matters, we didn't find the reason and method to handle this yet. But good news is moulinette doesn't test a extremely large or small value.
+
+
 The reason is I didn't consider with _**a negative width value**_, I will fix it later.
 
 ## Notes
@@ -50,8 +69,7 @@ The reason is I didn't consider with _**a negative width value**_, I will fix it
 
 6.Precision has two input format .nb or .*, like `ft_printf("%.3d", 42);` or `ft_printf("%.*d", 3, 42);`.
 
-7.For a very large or small width value or precision there would be a lot of problem, like `ft_printf("%2147483647d", 42);` and `ft_printf("INT_MAX WIDTH %2147483647d", 42);`, it seems what before % also matters, we didn't find the reason and method to handle this yet. But good news is moulinette doesn't test a extremely large or small value.
-
+7.
 ## Useful Links
   **flags & description** https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm
 
