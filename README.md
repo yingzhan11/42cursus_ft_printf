@@ -1,5 +1,7 @@
 # IMPORTANT!
-The Bonus Part is not perfect now, only half scores. I already find the problem and will try to fix it (see the Notes in BONUS PART), but I don't want to retry it, maybe in the future.
+The Bonus Part is not perfect now, only half scores. 
+
+I already find the problem and will try to fix it (see the Bonus Part), but I don't want to retry it, maybe in the future.
 
 # Mandatory Part
 ## Notes
@@ -9,9 +11,11 @@ The Bonus Part is not perfect now, only half scores. I already find the problem 
 
 3.Check NULL input
 
-4.For %p, when nb < base, also need to use "nb % 16" as the index for Hex string. This is differ to convert base for normal number.
+4.For %p, `if (nb < base)`, also need to use `hex[nb % 16]`. This is differ to convert base for normal number.
 
 5.Check single % without any specifier follow it.
+
+6.If test `ft_printf(NULL);` the program would segament fault, but the standard printf also segament fault with this input, so it's ok.
 
 ## Useful Links
   **about printf** https://www.geeksforgeeks.org/printf-in-c/
@@ -33,8 +37,16 @@ The reason is I didn't consider with a negative width value, I will fix it later
 
 ## Notes
 1.It is better to use a buffer to reduce the times to call write function.
+
 2.When use a buffer, remember to initialize it at begining and refresh it after write.
-3.
+
+3.Check fail of write function, if use a buffer only need to check it when write the buffer.
+
+4.The correct order of printf input is % [-+ 0#][width][.precision][specifier], but for a wrong order, if cc without -W -W -W, printf can also give a corret output and return value.
+
+5.Check negative width value.
+
+6.Precision has two input format .nb or .*
 
 ## Useful Links
   **flags & description** https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm
