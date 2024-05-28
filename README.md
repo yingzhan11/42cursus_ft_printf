@@ -94,7 +94,7 @@ _**How about two specifiers in a printf**_
 
    But start from the first 'd', to the next specifier 'd', the total length is [3] + [', b' before '%' is 3] + [2147483641] = [2147483647], which is larger than the max return value mentioned before. so it print nothing and return (-1).
 
-   So, this means, printf will print the output each time it meet a specifier, but add all write length of all specifiers together.
+   So, this means, printf will print the output each time it meet a specifier, but add all write length of all specifiers together, and as soon as it larger than INT_MAX - 1, it will stop.
 
    This is why it is better to use buffer to do this.
 
