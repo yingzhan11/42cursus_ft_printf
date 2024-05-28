@@ -86,15 +86,17 @@ _Not sure why is must be smaller, can not be equal, I guess it is because of '\0
 
 _**How about two specifiers in a printf**_
 
-   If test `printf(" >>>return value is %d\n", printf("a%d, b%2147483641d", 42, 42));`
+   If test `printf(" >>>return value is %d\n", printf("a%d, b%2147483641d, c%d", 42, 42, 42));`
 
    The result would be `a42 >>>return value is -1`
 
    For the first specifier, the total length is ['a' before %] + [nb1], so 1 + 2 = [3], and it can print correctly.
 
-   But start from the first 'd', to the next specifier 'd', the total length is [3] + [', b' before '%' is 3] + [2147483641] = [2147483647], which is larger than the max return value mentioned before. so it print nothing and return (-1).
+   But start from the first 'd', to the next specifier 'd', the total length is [3] + [', b' before '%' is 3] + [2147483641] = [2147483647], which is larger than the max return value mentioned before. 
+   
+   So it print nothing and return (-1), and stop print, so the third %d, wouldn't print.
 
-   So, this means, printf will print the output each time it meet a specifier, but add all write length of all specifiers together, and as soon as it larger than INT_MAX - 1, it will stop.
+   This means, printf will print the output each time it meet a specifier, but add write length for each specifier together. As soon as it larger than INT_MAX - 1, it will stop.
 
    This is why it is better to use buffer to do this.
 
