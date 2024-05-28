@@ -33,12 +33,17 @@ I have two version code for bonus part, one is similar with Mandatory part witho
 
 The newest one which I submit is use a large buffer to collect all contents need to be print, and only call write function when the buffer is full or reach the end of format string.
 
-## My Bug
+## My Bug (I haven't fix them yet)
 
 My code failed by moulinette in the bouns-one, "Manage any combination of the following flags: ’-0.’ and the field minimum width under all conversions."
 
-_**The possible bug:**_
+### **The possible bug:**
 
+#### 1.Precision for pointer (confirm it is an error)
+
+For `ft_printf("%.p", (void *)0);` or `ft_printf("%.0p", (void *)0);`, the output should be `0x`, my output is `0x0`
+
+#### 2.Max value for width? or return length? (not sure whether moulinette test this or not)
 For a very large or small width value, like INT_MAX or INT_MIN, it should return -1.
 
 I found some interesting? problems for this limitation
@@ -79,6 +84,21 @@ So _**INT_MAX - 1**_ is not the _**width**_ limitation, but the _**RETURN VALUE*
 
 _Not sure why is must be smaller, can not be equal, I guess it is because of '\0'?_
 
+_**How about two specifiers in a printf**_
+
+   If test `printf(" >>>return value is %d\n", printf("a%d, b%2147483641d", 42, 42));`
+
+   The result would be `a42 >>>return value is -1`
+
+   For the first specifier, the total length is ['a' before %] + [nb1], so 1 + 2 = [3], and it can print correctly.
+
+   But start from the first 'd', to the next specifier 'd', the total length is [3] + [', b' before '%' is 3] + [2147483641] = [2147483647], which is larger than the max return value mentioned before. so it print nothing and return (-1).
+
+   So, this means, printf will print the output each time it meet a specifier, but add all write length of all specifiers together.
+
+   This is why it is better to use buffer to do this.
+
+   But moulinette didn't think so much now, so may not need to do as this.
 
 ## Notes
 1. It is better to use a buffer method to reduce the times of calling write function.
